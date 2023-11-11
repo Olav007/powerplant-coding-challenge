@@ -1,0 +1,6 @@
+@PowerServiceAPI_HostAddress = https://localhost:8888
+
+GET {{PowerServiceAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
