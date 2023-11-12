@@ -13,9 +13,9 @@ namespace PowerServiceAPI.Controllers
         private const string PowerServiceAPI_HostAddress = "https://localhost:8888";
 
         [HttpPost]
-        public PowerPlan Post([FromBody] PowerLib.PowerSystem value)
+        public dynamic Post([FromBody] PowerLib.PowerSystem request)
         {
-            return new PowerPlan();
+            return Calculator.Calculate(request);
 
         }
 

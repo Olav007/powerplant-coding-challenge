@@ -1,8 +1,7 @@
 ﻿namespace PowerLib
 {
 
-
-    public class Fuel
+    public class Fuels
     {
         public double Gas { get; set; }
         public double Kerosine { get; set; }
@@ -10,26 +9,28 @@
         public double Wind { get; set; }
     }
 
+
     public class PowerPlant
     {
-        public string Name { get; set; }
-        public string Type { get; set; }
-        public double Efficiency { get; set; }
-        public int Pmin { get; set; }
-        public int Pmax { get; set; }
+        public string name { get; set; }
+        public string type { get; set; }
+        public double efficiency { get; set; }
+        public int pmin { get; set; }
+        public int pmax { get; set; }
     }
 
     public class PowerSystem
     {
-        public int Load { get; set; }
-        public Fuel Fuels { get; set; }
-        public List<PowerPlant> PowerPlants { get; set; }
+        public int load { get; set; }
+        //public List<(string, double)> fuels { get; set; }
+        public Fuels fuels { get; set; }
+        public List<PowerPlant> powerplants { get; set; }
     }
 
     public class PowerPlantPlan
     {
-        public string Name { get; set; }
-        public int P { get; set; }
+        public string name { get; set; }
+        public int p { get; set; }
     }
 
     public class PowerPlan
@@ -38,4 +39,3 @@
     }
 
 }
-
