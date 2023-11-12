@@ -16,9 +16,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example_payloads", "example
 		example_payloads\response3.json = example_payloads\response3.json
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Powerlib", "PowerLib\Powerlib.csproj", "{4DB0E678-1ECE-430D-AB46-411708F670E5}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerServiceAPI", "PowerServiceAPI\PowerServiceAPI.csproj", "{7A93F01F-51B9-4298-8C96-3311315ECE24}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Powerlib", "PowerLib\Powerlib.csproj", "{4DB0E678-1ECE-430D-AB46-411708F670E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

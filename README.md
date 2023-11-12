@@ -1,3 +1,9 @@
+# To run
+Open top solution file in  recent version of Visual Studio
+(With recent frameworks)
+Ctrl-F5 to run
+(Possibly PowerServiceAPI has to be set as startup project first)
+
 # powerplant-coding-challenge
 
 
