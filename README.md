@@ -1,8 +1,13 @@
 # To run
-Open top solution file in  recent version of Visual Studio
-(With recent frameworks)
-Ctrl-F5 to run
-(Possibly PowerServiceAPI has to be set as startup project first)
+Open top solution file in  recent version of Visual Studio and frameworks.  
+(Work is done with Current Community Preview- version 17.8, .NET 8.0)   
+Ctrl-F5 to run  
+(Possibly PowerServiceAPI has to be set as startup project first, or you have to run that project directly)  
+
+# Limitations
+Sometimes a plant cant be turned on because the total power would be to high - Leading to more power from more costly plants, or no solution at all.  
+This could be can be solved by reducing power on some plants (Can be quite complex).
+A different processing order would be better, but the sample response uses alphabetic sorting.
 
 # powerplant-coding-challenge
 
