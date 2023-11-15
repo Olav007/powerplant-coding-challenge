@@ -1,6 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-
+﻿using System.Collections.Generic;
+/* Classes corresponding to request JSON */
 namespace PowerLib
 {
     using Fuels = System.Text.Json.JsonElement;

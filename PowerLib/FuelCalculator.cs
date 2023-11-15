@@ -27,13 +27,16 @@ namespace PowerLib
             }
 
         }
-        public (double price, double percentage) getValue( string plantType)
+        public double getPrice( string plantType)
         {
             if (plantType.Contains("wind"))
-                return ( 0, wind.Value);
+                return 0;
             if( plantType.Contains("gas" ))
-                return (gas.Value, 0);
-            return (kerosine.Value, 0);
+                return gas.Value;
+            return kerosine.Value;
         }
+        public double  windPercentage { get { return wind.Value; } }
+
+
     }
 }
