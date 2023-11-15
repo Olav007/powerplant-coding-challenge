@@ -16,7 +16,7 @@ namespace PowerLib
             {
                 var price = fuelCalculator.getPrice(plant.type);
                 var cost = (0 == price) ? 0 : price / plant.efficiency;
-                plants.Add(new PlantPower { Plant = plant, Cost = cost});
+                plants.Add(new  PlantPower { Plant = plant, Cost = cost});
             }
             var plantsMeritOrder = plants.OrderBy(plant => plant.Cost).ThenBy(plant => plant.Plant.name).ToList();
             double requiredPowerRemaining = req.load;
@@ -32,8 +32,8 @@ namespace PowerLib
                 Converters = new List<Newtonsoft.Json.JsonConverter> { new Newtonsoft.Json.Converters.StringEnumConverter() },
                 FloatFormatHandling = Newtonsoft.Json.FloatFormatHandling.DefaultValue,
                 FloatParseHandling = Newtonsoft.Json.FloatParseHandling.Double
-            };
-            return Newtonsoft.Json.JsonConvert.SerializeObject(plantsMeritOrder.Select(plant => new { name = plant.Plant.name, p = plant.p.Value }), settings);
+            };         
+            return Newtonsoft.Json.JsonConvert.SerializeObject(plantsMeritOrder.Select(plant => new { name = plant.Plant.name, p = Math.Round(plant.p.Value, 1) }), settings);
         }
     }
 }
