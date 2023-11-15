@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 namespace PowerLib
 {
-
-
     static public class Calculator
     {
         public static dynamic Calculate(PowerSystem req)
@@ -28,7 +26,14 @@ namespace PowerLib
                 plant.p = p;
                 requiredPowerRemaining -= p;
             }
-            return plantsMeritOrder.Select(plant => new { name = plant.Plant.name, p = plant.p.Value.ToString("F1") });
+            var settings = new Newtonsoft.Json.JsonSerializerSettings
+            {
+                Formatting = Newtonsoft.Json.Formatting.Indented,
+                Converters = new List<Newtonsoft.Json.JsonConverter> { new Newtonsoft.Json.Converters.StringEnumConverter() },
+                FloatFormatHandling = Newtonsoft.Json.FloatFormatHandling.DefaultValue,
+                FloatParseHandling = Newtonsoft.Json.FloatParseHandling.Double
+            };
+            return Newtonsoft.Json.JsonConvert.SerializeObject(plantsMeritOrder.Select(plant => new { name = plant.Plant.name, p = plant.p.Value }), settings);
         }
     }
 }
