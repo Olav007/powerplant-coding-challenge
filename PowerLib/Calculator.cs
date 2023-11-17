@@ -26,30 +26,56 @@ namespace PowerLib
             plantsMeritOrder = plants.OrderBy(plant => plant.Cost).ThenBy(plant => plant.Plant.name).ToList();
         }
         
-        private bool reducePower(int toIndex, double power2reduce, double? minCost)
+        private double  reducePower(int toIndex, double power2reduceMin, double power2reduceMax)
         {
-            if (toIndex < 0 || power2reduce <= 0)
-                return false;
+            if (toIndex < 0 || power2reduceMin <= 0)
+                return 0;
             var plant = plantsMeritOrder[toIndex];
-            if (minCost.HasValue && minCost.Value > plant.Cost )
-            {
-                return false; 
+
+            /* Try to reduce with exact value on this plant*/
+
+            double newPowerMax = plant.p.Value - power2reduceMin;
+            double newPowerMin = plant.p.Value - power2reduceMax;
+            var power = PlantCalculator.GetPower(plant.Plant, newPowerMax, fuelCalculator.windPercentage);
+            if(power.result != ResultType.zero && power.p > newPowerMin)
+            { 
+                double oldValue = plant.p.Value;
+                plant.p = power.p;
+                return oldValue - plant.p.Value;
             }
-            /* Try to reduce with exact value */
-            double newPowerThisPlant = plant.p.Value - power2reduce;
-            if(newPowerThisPlant >= 0 && (PlantCalculator.GetPower(plant.Plant, newPowerThisPlant, fuelCalculator.windPercentage)).result == ResultType.success  ) 
-            {
-                plant.p = newPowerThisPlant;
-                return true;
-            }
-            /*   If we are here, we will have to try to reduce power on earlier nodes */  
-                   /* First with turning off thisplant */
-            if(newPowerThisPlant < 0 && reducePower(toIndex - 1, -power2reduce, minCost))
+
+            /* Try turn off this plant */
+            var res = reducePower(toIndex - 1, power2reduceMin - plant.p.Value, power2reduceMax - plant.p.Value);
+            double reduced = plant.p.Value + res;
+            if (power2reduceMin <= reduced && reduced < power2reduceMax)
             {
                 plant.p = 0;
-                return true;
+                return reduced;
             }
-            return false;
+
+            /*   If we are here, we will reduce power on earier nodes, combined with some reduction on this node */
+            double planttMaxReduction = plant.p.Value - power.pmin;
+            double plantMaxIncrease = power.pmax - plant.p.Value;
+            var reduced_before = reducePower(toIndex - 1, power2reduceMin - planttMaxReduction, power2reduceMax + plantMaxIncrease);
+            if (reduced_before > 0)
+            {
+                double p_prev = plant.p.Value;
+                double reduced_below_min = power2reduceMin - reduced_before;
+                double reduced_above_max = power2reduceMax - reduced_before;
+                if (reduced_below_min > 0)
+                {
+                    plant.p -= reduced_below_min; 
+                }
+                else if (reduced_above_max > 0)
+                {
+                    plant.p -= reduced_above_max;
+                }
+                return reduced_before + (p_prev - plant.p.Value);
+            }
+            return 0;
+
+
+
         }
         public dynamic Calculate( double required_load )
         {
@@ -61,20 +87,13 @@ namespace PowerLib
                 var p = ptup.p;
                 if (ptup.result == ResultType.zero && requiredPowerRemaining > 0) 
                 {        /* Try to reduce power on previous plants so plant tcan be turned on */
-                    if(reducePower(plantsMeritOrder.IndexOf(plant) - 1, ptup.pmin - requiredPowerRemaining, plant.Cost))
-                        p = ptup.pmin;
+                    double reduced = reducePower(plantsMeritOrder.IndexOf(plant) - 1, ptup.pmin - requiredPowerRemaining, ptup.pmax - requiredPowerRemaining);
+                    requiredPowerRemaining += reduced;
+                    p = (reduced > 0) ? requiredPowerRemaining : 0;
                 }
                 plant.p = p;
                 requiredPowerRemaining -= p;
             }
-            /* ReturnTypeEncoder with correct formatting */
-            var settings = new Newtonsoft.Json.JsonSerializerSettings
-            {
-                Formatting = Newtonsoft.Json.Formatting.Indented,
-                Converters = new List<Newtonsoft.Json.JsonConverter> { new Newtonsoft.Json.Converters.StringEnumConverter() },
-                FloatFormatHandling = Newtonsoft.Json.FloatFormatHandling.DefaultValue,
-                FloatParseHandling = Newtonsoft.Json.FloatParseHandling.Double
-            };
             return plantsMeritOrder.Select(plant => new { name = plant.Plant.name, p = Math.Round(plant.p.Value, 1) });
         }
     }

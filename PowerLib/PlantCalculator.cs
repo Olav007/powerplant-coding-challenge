@@ -4,7 +4,7 @@ namespace PowerLib {
 
 
     //using PowerResult = (ResultType result, double p, double pmin);
-    public record PowerResult(ResultType result, double p, double pmin);
+    public record PowerResult(ResultType result, double p, double pmin, double pmax);
 
     static public class PlantCalculator {
 
@@ -16,15 +16,15 @@ namespace PowerLib {
             var pminEffective = isWindmill ? pmaxEffective : plant.pmin;//They are turned on or not, so pmin is pmax
             if (pmaxEffective <= requiredPowerRemaining)
             {
-                return new PowerResult(ResultType.partial, pmaxEffective, pminEffective);
+                return new PowerResult(ResultType.partial, pmaxEffective, pminEffective, pmaxEffective);
             }
             else if (requiredPowerRemaining >= pminEffective)
             {
-                return new PowerResult(ResultType.success, requiredPowerRemaining, pminEffective);
+                return new PowerResult(ResultType.success, requiredPowerRemaining, pminEffective, pmaxEffective);
             }
             else
             {
-                return new PowerResult(ResultType.zero, 0, pminEffective);
+                return new PowerResult(ResultType.zero, 0, pminEffective, pmaxEffective);
             }
         }
     }

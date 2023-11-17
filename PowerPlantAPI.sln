@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example_payloads", "example
 		example_payloads\payload2.json = example_payloads\payload2.json
 		example_payloads\payload3.json = example_payloads\payload3.json
 		example_payloads\response3.json = example_payloads\response3.json
-		example_payloads\simple1.json = example_payloads\simple1.json
+		example_payloads\lessSimple1.json = example_payloads\lessSimple1.json
 		example_payloads\simple1response.json = example_payloads\simple1response.json
 	EndProjectSection
 EndProject
