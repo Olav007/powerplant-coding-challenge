@@ -3,7 +3,7 @@
 namespace PowerLib
 {
     using Fuels = System.Text.Json.JsonElement;
-
+    public enum ResultType { zero, partial, success };
 
     public class PowerPlant
     {

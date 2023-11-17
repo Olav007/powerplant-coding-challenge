@@ -1,27 +1,31 @@
 ﻿using System;
-namespace PowerLib
-{
 
-    static public class PlantCalculator
-    {
-        static public double GetPower(PowerPlant plant, double requiredPowerRemaining, double percentage)
+namespace PowerLib { 
+
+
+    //using PowerResult = (ResultType result, double p, double pmin);
+    public record PowerResult(ResultType result, double p, double pmin);
+
+    static public class PlantCalculator {
+
+
+        static public PowerResult GetPower(PowerPlant plant, double requiredPowerRemaining, double percentage)
         {
             bool isWindmill = plant.type == "windturbine";
-            var pmax = !isWindmill ? plant.pmax : plant.pmax * percentage / 100;
-            var pmin = isWindmill ? pmax : plant.pmin;//They are turned on or not, so pmin is pmax
-            if (pmax <= requiredPowerRemaining)
+            var pmaxEffective = !isWindmill ? plant.pmax : plant.pmax * percentage / 100;
+            var pminEffective = isWindmill ? pmaxEffective : plant.pmin;//They are turned on or not, so pmin is pmax
+            if (pmaxEffective <= requiredPowerRemaining)
             {
-                return pmax;
+                return new PowerResult(ResultType.partial, pmaxEffective, pminEffective);
             }
-            else if (requiredPowerRemaining >= pmin)
+            else if (requiredPowerRemaining >= pminEffective)
             {
-                return requiredPowerRemaining;
+                return new PowerResult(ResultType.success, requiredPowerRemaining, pminEffective);
             }
             else
             {
-                return 0;
+                return new PowerResult(ResultType.zero, 0, pminEffective);
             }
         }
     }
 }
-
