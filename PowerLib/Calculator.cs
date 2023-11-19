@@ -73,9 +73,6 @@ namespace PowerLib
                 return reduced_before + (p_prev - plant.p.Value);
             }
             return 0;
-
-
-
         }
         public dynamic Calculate( double required_load )
         {

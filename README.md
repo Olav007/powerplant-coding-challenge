@@ -5,9 +5,10 @@ Ctrl-F5 to run
 (Possibly PowerServiceAPI has to be set as startup project first, or you have to run that project directly)  
 
 # Limitations
-Sometimes a plant cant be turned on because the total power would be to high - Leading to more power from more costly plants, or no solution at all.  
-This could be can be solved by reducing power on some plants (Can be quite complex).
-A different processing order would be better, but the sample response uses alphabetic sorting.
+The solution is quite good, especially when it comes to finding a correct solution fulfiling the constraints. 
+
+It is also produces quite optimal solutions.  A solution less than optimal might occur when the algorithm reduces power on low merit order plants (eg wind),
+to turn on a high merit-order plant (gas), instead of perhaps turning on another plant (That could have higher merit-order, like kerosene). 
 
 # powerplant-coding-challenge
 
