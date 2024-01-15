@@ -1,5 +1,9 @@
 # To run
-Open top solution file in  recent version of Visual Studio and frameworks.  
+The service is available at  
+[https://webapplication420240112092027deptestpower.azurewebsites.net/productionplan](https://webapplication420240112092027deptestpower.azurewebsites.net/productionplan)  
+Swagger at swagger/index.html  
+
+To run solution locally, open top solution file in  recent version of Visual Studio and frameworks.  
 (Work is done with Current Community Preview- version 17.8, .NET 8.0)   
 Ctrl-F5 to run  
 (Possibly PowerServiceAPI has to be set as startup project first, or you have to run that project directly)  
